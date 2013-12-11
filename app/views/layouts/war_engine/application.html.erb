@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WarEngine</title>
+  <%= stylesheet_link_tag    "war_engine/application", media: "all" %>
+  <%= javascript_include_tag "war_engine/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% flash.each do |k,v| %>
+		<div class='flash <%= k %>'><%= v %></div> 
+	<% end %>
+	<%= yield %>
+
+</body>
+</html>
