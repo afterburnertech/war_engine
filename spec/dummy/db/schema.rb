@@ -11,14 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131211195950) do
+ActiveRecord::Schema.define(version: 20131212160224) do
 
   create_table "war_engine_accounts", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "owner_id"
+    t.string   "subdomain"
   end
+
+  add_index "war_engine_accounts", ["subdomain"], name: "index_war_engine_accounts_on_subdomain"
 
   create_table "war_engine_users", force: true do |t|
     t.string   "email"
