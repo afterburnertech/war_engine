@@ -21,7 +21,10 @@ module WarEngine
 
     # insert the Warden::Manager middleware into the application’s middleware stack
     initializer 'subscribem.middleware.warden' do 
-    	Rails.application.config.middleware.use Warden::Manager
+    	Rails.application.config.middleware.use Warden::Manager do |manager| 
+    		# this strategy is defined in config/initializers/warden/strategies/password.rb
+    		manager.default_strategies :password
+		end
     end
   end
 end
