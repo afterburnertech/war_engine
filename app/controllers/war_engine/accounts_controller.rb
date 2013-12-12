@@ -9,14 +9,19 @@ module WarEngine
   	end
 
   	def create
-  		@account = WarEngine::Account.create(account_params)
-  		# set_user method tells Warden that we want to set the current session’s user to that particular value
-  		env['warden'].set_user(@account.owner.id, :scope => :user) 
-  		env['warden'].set_user(@account.id, :scope => :account)
-  		flash[:success] = "Your account has been successfully created."
-  		
-  		#tell rails to route the request to a subdomain
-  		redirect_to war_engine.root_url(:subdomain => @account.subdomain)
+  		@account = WarEngine::Account.new(account_params)
+  		if @account.save
+	  		# set_user method tells Warden that we want to set the current session’s user to that particular value
+	  		env['warden'].set_user(@account.owner.id, :scope => :user) 
+	  		env['warden'].set_user(@account.id, :scope => :account)
+	  		flash[:success] = "Your account has been successfully created."
+
+	  		#tell rails to route the request to a subdomain
+	  		redirect_to war_engine.root_url(:subdomain => @account.subdomain)
+	  	else
+	  		flash[:error] = "Sorry, your account could not be created."
+	  		render :new
+	  	end
   	end
 
   	private
