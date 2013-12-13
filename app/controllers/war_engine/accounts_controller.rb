@@ -12,9 +12,7 @@ module WarEngine
   		# create the account and if valid, add the owner to the list of users
   		@account = WarEngine::Account.create_with_owner(account_params)
   		if @account.valid?
-	  		# set_user method tells Warden that we want to set the current session’s user to that particular value
-	  		env['warden'].set_user(@account.owner.id, :scope => :user) 
-	  		env['warden'].set_user(@account.id, :scope => :account)
+	  		force_authentication!(@account, @account.owner)
 	  		flash[:success] = "Your account has been successfully created."
 
 	  		#tell rails to route the request to a subdomain

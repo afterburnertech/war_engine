@@ -12,6 +12,9 @@ WarEngine::Engine.routes.draw do
 		# rather than just the WarEngine namespace.
 		scope :module => "account" do
 			root :to => "dashboard#index", :as => :account_root 
+			get '/sign_up', :to => "users#new", :as => :user_sign_up
+			post '/sign_up', :to => "users#create", :as => :do_user_sign_up
+
 			get '/sign_in', :to => 'sessions#new'
 			post '/sign_in', :to => 'sessions#create', :as => :sessions
 		end
