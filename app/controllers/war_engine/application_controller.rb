@@ -1,44 +1,12 @@
 module WarEngine
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
 
-  	def current_account 
-  		if user_signed_in?
-	  		@current_account ||= begin
-	  			account_id = env['warden'].user(:scope => :account) 
-	  			WarEngine::Account.find(account_id)
-	  		end 
-	  	end
-  	end
-  	helper_method :current_account 
-
-  	def current_user
-	  	if user_signed_in? 
-	  		@current_user ||= begin
-		  	    user_id = env['warden'].user(:scope => :user)
-		  		WarEngine::User.find(user_id) 
-		  	end
-	  	end 
-	end
-  	helper_method :current_user 
-
-  	def user_signed_in?
-  		env['warden'].authenticated?(:user)
-  	end
-  	helper_method :user_signed_in?
-
-  	def authenticate_user! 
-  		unless user_signed_in?
-  	    	flash[:notice] = "Please sign in."
-  			redirect_to '/sign_in' 
-  		end
-  	end
-
-  	def force_authentication!(account, user) 
-	  	# set_user method tells Warden that we want to set the 
-	  	# current session’s user to that particular value
-  		env['warden'].set_user(user.id, :scope => :user) 
-  		env['warden'].set_user(account.id, :scope => :account)
-  	end
+  	# The methods: current_account, current_user, user_signed_in?, authenticate_user!, 
+  	# and force_authentication! are now found in extenders/controllers/application_controller_extender.rb
+  	# This allows these methods to be available to both engine and application
+  	# This extender will need to be loaded so that the methods are made available on ApplicationController.
+    # To do that, we can put a new to_prepare hook within the engine’s definition, inside the 
+    # WarEngine::Engine class inside lib/subscribem/engine.rb.
 
   end
 end

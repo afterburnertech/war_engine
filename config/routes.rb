@@ -1,5 +1,6 @@
 require 'war_engine/constraints/subdomain_required'
 WarEngine::Engine.routes.draw do
+  get "things/index"
 	# A subdomain constraint requires that certain routes be 
 	# accessed through a subdomain of the application, rather 
 	# than at the root. If no subdomain is provided, then the 
