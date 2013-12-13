@@ -10,17 +10,20 @@ Warden::Strategies.add(:password) do
 	# to use the ActionDispatch::Http::URL.extract_subdomains method to get the 
 	# subdomain for this request. We also need to use strings for the params keys
 	# for the same reasons.
-	def valid?
-	    host = request.host
-	    subdomain = ActionDispatch::Http::URL.extract_subdomains(host, 1)
-	    subdomain.present? && params['user']
+	def subdomain
+			ActionDispatch::Http::URL.extract_subdomains(request.host, 1) 
 	end
-
+	def valid?
+		subdomain.present? && params["user"]
+	end
 	def authenticate!
-		if u = WarEngine::User.find_by_email(params["user"]["email"]) 
-			u.authenticate(params['user']['password']) ? success!(u) : fail!
-		else
-			fail! 
+		if account = WarEngine::Account.where(:subdomain => subdomain).first 
+			if u = account.users.where(:email => params["user"]["email"]).first
+				if u.authenticate(params["user"]["password"]) 
+					return success!(u)
+				end 			
+			end			
 		end
-	end 
+		fail! 
+	end
 end

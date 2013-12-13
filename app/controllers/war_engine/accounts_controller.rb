@@ -9,8 +9,9 @@ module WarEngine
   	end
 
   	def create
-  		@account = WarEngine::Account.new(account_params)
-  		if @account.save
+  		# create the account and if valid, add the owner to the list of users
+  		@account = WarEngine::Account.create_with_owner(account_params)
+  		if @account.valid?
 	  		# set_user method tells Warden that we want to set the current session’s user to that particular value
 	  		env['warden'].set_user(@account.owner.id, :scope => :user) 
 	  		env['warden'].set_user(@account.id, :scope => :account)

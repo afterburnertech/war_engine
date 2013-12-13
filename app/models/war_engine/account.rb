@@ -20,5 +20,17 @@ module WarEngine
   	before_validation do
   		self.subdomain = subdomain.to_s.downcase
   	end 
+
+  	has_many :members, :class_name => "WarEngine::Member"
+  	has_many :users, :through => :members
+
+  	def self.create_with_owner(params={}) 
+  		account = new(params)
+	  	if account.save
+		  	account.users << account.owner 
+		end
+		# if not valid, return account object as it stands
+	  	account
+  	end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131212160224) do
+ActiveRecord::Schema.define(version: 20131213162019) do
 
   create_table "war_engine_accounts", force: true do |t|
     t.string   "name"
@@ -22,6 +22,13 @@ ActiveRecord::Schema.define(version: 20131212160224) do
   end
 
   add_index "war_engine_accounts", ["subdomain"], name: "index_war_engine_accounts_on_subdomain"
+
+  create_table "war_engine_members", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "war_engine_users", force: true do |t|
     t.string   "email"

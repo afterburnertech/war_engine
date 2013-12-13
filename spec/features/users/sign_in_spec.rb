@@ -34,7 +34,7 @@ feature 'User sign in' do
 		  page.should have_content("Invalid email or password.")
 		  page.current_url.should == sign_in_url
 		end 
-		scenario "cannot sign in if not apart of this subdomain" do
+		scenario "cannot sign in if not a part of this subdomain" do
 			other_account = FactoryGirl.create(:account)
 			visit war_engine.root_url(:subdomain => account.subdomain)
 			page.current_url.should == sign_in_url

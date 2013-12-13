@@ -6,7 +6,7 @@ Warden::Strategies.add(:password)do
 		subdomain.present? && params["user"]
 	end
 	def authenticate!
-		if account = Subscribem::Account.where(:subdomain => subdomain).first 
+		if account = WarEngine::Account.where(:subdomain => subdomain).first 
 			if u = account.users.where(:email => params["user"]["email"]).first
 				if u.authenticate(params["user"]["password"]) 
 					return success!(u)
