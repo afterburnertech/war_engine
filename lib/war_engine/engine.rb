@@ -11,7 +11,8 @@
 
 require 'warden'
 require 'dynamic_form'
-require "war_engine/active_record_extensions"
+require 'apartment'
+
 module WarEngine
   class Engine < ::Rails::Engine
     isolate_namespace WarEngine
@@ -46,6 +47,13 @@ module WarEngine
 	    Dir.glob(extenders_path) do |file|
 		    Rails.configuration.cache_classes ? require(file) : load(file) 
 		end
+    end
+
+    # Check the subdomain for the request and then 
+    # switch the schema lookup path to include the 
+    # schema which has the same name as the subdomain.
+    initializer 'war_engine.middleware.apartment' do
+    	Rails.application.config.middleware.use Apartment::Elevators::Subdomain
     end
 
   end

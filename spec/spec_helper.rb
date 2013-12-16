@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'factory_girl'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -29,7 +30,8 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  #config.use_transactional_fixtures = true
+  # using database_cleaner
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -41,4 +43,43 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  # Inside the before(:all) block, we’re setting up 
+  # the Database Cleaner gem’s strategy to be truncation, 
+  # so that the tables are all truncated at the end of each test, 
+  # rather than having the tests run inside a transaction. 
+  # The pre_count option will perform counts on the tables 
+  # database cleaner wants to truncate, and if there’s any records
+  # in them will truncate them, leaving the empty tables alone. 
+  # The reset_ids option will reset the auto-increment count on 
+  # each of the tables.
+  config.before(:all) do
+    DatabaseCleaner.strategy = :truncation,
+      {:pre_count => true, :reset_ids => true} 
+    DatabaseCleaner.clean_with(:truncation)
+  end 
+  config.before(:each) do
+    DatabaseCleaner.start 
+  end
+  config.after(:each) do 
+    Apartment::Database.reset 
+    DatabaseCleaner.clean
+  end
+
+
+  # Ensure that the database state is reset after each test
+  config.after(:each) do 
+    Apartment::Database.reset
+    connection = ActiveRecord::Base.connection.raw_connection
+    schemas = connection.query(%Q{
+      SELECT 'drop schema ' || nspname || ' cascade;'
+      from pg_namespace
+      where nspname != 'public'
+      AND nspname NOT LIKE 'pg_%'
+      AND nspname != 'information_schema';
+    })
+    schemas.each do |query| 
+      connection.query(query.values.first)
+    end
+  end
 end

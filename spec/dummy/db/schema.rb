@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131213190037) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "things", force: true do |t|
     t.string   "name"
     t.integer  "account_id"
@@ -28,7 +31,7 @@ ActiveRecord::Schema.define(version: 20131213190037) do
     t.string   "subdomain"
   end
 
-  add_index "war_engine_accounts", ["subdomain"], name: "index_war_engine_accounts_on_subdomain"
+  add_index "war_engine_accounts", ["subdomain"], name: "index_war_engine_accounts_on_subdomain", using: :btree
 
   create_table "war_engine_members", force: true do |t|
     t.integer  "account_id"

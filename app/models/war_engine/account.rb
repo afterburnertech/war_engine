@@ -32,5 +32,9 @@ module WarEngine
 		# if not valid, return account object as it stands
 	  	account
   	end
+
+  	def create_schema 
+  		Apartment::Database.create(subdomain)
+	end	
   end
 end

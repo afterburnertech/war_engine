@@ -1,5 +1,24 @@
 require 'spec_helper'
 describe WarEngine::Account do
+	def schema_exists?(account)
+		# The pg_namespace table is a PostgreSQL system catalog that comes
+		# with the database when it is created. This particular catalog 
+		# contains a list of all the schema names, along with information 
+		# about who created them. 
+		query = %Q{SELECT nspname FROM pg_namespace
+				WHERE nspname='#{account.subdomain}'}
+		result = ActiveRecord::Base.connection.select_value(query) 
+		result.present?
+	end
+	it "creates a schema" do
+	    account = WarEngine::Account.create!({
+	      :name => "First Account",
+	      :subdomain => "first"
+		})
+		account.create_schema
+		failure_message = "Schema #{account.subdomain} does not exist" 
+		assert schema_exists?(account), failure_message
+	end
   	it "can be created with an owner" do 
   		params = {
 	        :name => "Test Account",

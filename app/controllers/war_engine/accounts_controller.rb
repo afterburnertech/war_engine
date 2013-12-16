@@ -13,6 +13,7 @@ module WarEngine
   		@account = WarEngine::Account.create_with_owner(account_params)
   		if @account.valid?
 	  		force_authentication!(@account, @account.owner)
+	  		@account.create_schema
 	  		flash[:success] = "Your account has been successfully created."
 
 	  		#tell rails to route the request to a subdomain
