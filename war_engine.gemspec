@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = WarEngine::VERSION
   s.authors     = "Brandon Campbell"
   s.email       = ["brandon@afterburnertechnologies.com"]
-  s.homepage    = "www.afterburnerinsight.com"
-  s.summary     = "TODO: Summary of WarEngine."
-  s.description = "TODO: Description of WarEngine."
+  s.homepage    = "https://www.afterburnerinsight.com"
+  s.summary     = "Subscription and Account management engine."
+  s.description = "Subscription and Account management engine."
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
