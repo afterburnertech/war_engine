@@ -5,7 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'factory_girl'
-require 'database_cleaner'
+require 'war_engine/testing_support/database_cleaning'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -44,44 +44,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  # Inside the before(:all) block, we’re setting up 
-  # the Database Cleaner gem’s strategy to be truncation, 
-  # so that the tables are all truncated at the end of each test, 
-  # rather than having the tests run inside a transaction. 
-  # The pre_count option will perform counts on the tables 
-  # database cleaner wants to truncate, and if there’s any records
-  # in them will truncate them, leaving the empty tables alone. 
-  # The reset_ids option will reset the auto-increment count on 
-  # each of the tables.
-  config.before(:all) do
-    DatabaseCleaner.strategy = :truncation,
-      {:pre_count => true, :reset_ids => true} 
-    DatabaseCleaner.clean_with(:truncation)
-  end 
-  config.before(:each) do
-    DatabaseCleaner.start 
-  end
-  config.after(:each) do 
-    Apartment::Database.reset 
-    DatabaseCleaner.clean
-  end
-
-
-  # Ensure that the database state is reset after each test
-  config.after(:each) do 
-    Apartment::Database.reset
-    connection = ActiveRecord::Base.connection.raw_connection
-    schemas = connection.query(%Q{
-      SELECT 'drop schema ' || nspname || ' cascade;'
-      from pg_namespace
-      where nspname != 'public'
-      AND nspname NOT LIKE 'pg_%'
-      AND nspname != 'information_schema';
-    })
-    schemas.each do |query| 
-      connection.query(query.values.first)
-    end
-  end
+  config.include WarEngine::TestingSupport::DatabaseCleaning
 
   # Requests to the root path for the application now will go to a faux
   # http://example.com, rather than http://www.example.com  

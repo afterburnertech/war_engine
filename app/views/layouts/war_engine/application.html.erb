@@ -7,10 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<%= render :partial => "war_engine/shared/login" %>
 	<% flash.each do |k,v| %>
 		<div class='flash <%= k %>'><%= v %></div> 
 	<% end %>
-	<%= render :partial => "war_engine/shared/login" %>
+
 	<%= yield %>
 
 </body>
