@@ -1,6 +1,9 @@
 require'spec_helper' 
+require 'war_engine/testing_support/subdomain_helpers'
+require 'war_engine/testing_support/factories/account_factory'
 feature 'User sign in' do
-	extend SubdomainHelpers
+	extend WarEngine::TestingSupport::SubdomainHelpers
+
 	let!(:account) { FactoryGirl.create(:account_with_schema) }
 	let(:sign_in_url) { "http://#{account.subdomain}.example.com/sign_in" } 
 	let(:root_url) { "http://#{account.subdomain}.example.com/" } 

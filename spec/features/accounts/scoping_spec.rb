@@ -1,4 +1,5 @@
 require 'spec_helper' 
+require 'war_engine/testing_support/factories/account_factory'
 feature "Account scoping" do
 	let!(:account_a) { FactoryGirl.create(:account_with_schema) } 
 	let!(:account_b) { FactoryGirl.create(:account_with_schema) } 
