@@ -10,7 +10,7 @@ module WarEngine
   	def create
   		account = WarEngine::Account.find_by_subdomain!(request.subdomain)
   		user = account.users.create(user_params) 
-  		force_authentication!(account, user)
+  		force_authentication!(user)
   		flash[:success] = "You have signed up successfully." 
   		redirect_to root_path
   	end

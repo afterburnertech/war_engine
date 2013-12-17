@@ -12,7 +12,7 @@ module WarEngine
   		# create the account and if valid, add the owner to the list of users
   		@account = WarEngine::Account.create_with_owner(account_params)
   		if @account.valid?
-	  		force_authentication!(@account, @account.owner)
+	  		force_authentication!(@account.owner)
 	  		@account.create_schema
 	  		flash[:success] = "Your account has been successfully created."
 

@@ -82,4 +82,8 @@ RSpec.configure do |config|
       connection.query(query.values.first)
     end
   end
+
+  # Requests to the root path for the application now will go to a faux
+  # http://example.com, rather than http://www.example.com  
+  Capybara.app_host = "http://example.com"
 end

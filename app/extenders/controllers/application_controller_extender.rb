@@ -37,10 +37,9 @@
 		end
 	end
 			
-	def force_authentication!(account, user) 
+	def force_authentication!(user) 
 		# set_user method tells Warden that we want to set the 
 		# current session’s user to that particular value
 		env['warden'].set_user(user.id, :scope => :user) 
-		env['warden'].set_user(account.id, :scope => :account)
 	end
 end
