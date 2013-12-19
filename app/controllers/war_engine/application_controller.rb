@@ -8,5 +8,11 @@ module WarEngine
     # To do that, we can put a new to_prepare hook within the engine’s definition, inside the 
     # WarEngine::Engine class inside lib/subscribem/engine.rb.
 
+    def authorize_owner 
+    	unless owner?
+	        flash[:error] = "You are not allowed to do that."
+	        redirect_to root_path
+    	end 
+	end
   end
 end

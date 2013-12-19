@@ -2,7 +2,6 @@ require_dependency "war_engine/application_controller"
 
 module WarEngine
   class AccountsController < ApplicationController
-
   	def new
   		@account = WarEngine::Account.new
   		@account.build_owner
