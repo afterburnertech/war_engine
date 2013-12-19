@@ -12,6 +12,7 @@
 require 'warden'
 require 'dynamic_form'
 require 'apartment'
+require 'braintree'
 
 module WarEngine
   class Engine < ::Rails::Engine

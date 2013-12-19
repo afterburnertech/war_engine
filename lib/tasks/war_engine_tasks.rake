@@ -1,4 +1,7 @@
-# desc "Explaining what the task does"
-# task :war_engine do
-#   # Task goes here
-# end
+require'war_engine/braintree_plan_fetcher' 
+namespace :war_engine do
+	desc "Import plans from Braintree" 
+	task :import_plans => :environment do
+		BraintreePlanFetcher.store_locally 
+	end
+end
