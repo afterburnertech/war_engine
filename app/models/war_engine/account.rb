@@ -2,7 +2,8 @@
 module WarEngine
   class Account < ActiveRecord::Base
   	validates :subdomain, :presence => true, :uniqueness => true
-
+  	validates :name, :presence => true
+  	
   	# make sure there are no illegal characters in the subdomain name
   	validates_format_of :subdomain, :with => /\A[\w\-]+\Z/i,
   	                    :message => "is not allowed. Please choose another subdomain."

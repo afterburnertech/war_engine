@@ -17,6 +17,14 @@ feature "Accounts" do
 		      page.should have_content("Account updated successfully.")
 		      account.reload.name.should == "A new name"
 		end 
+		scenario "updating an account with invalid attributes fails" do 
+			visit root_url
+			click_link "Edit Account"
+			fill_in "Name", :with => ''
+		    click_button "Update Account"
+		    page.should have_content("Name can't be blank")
+		    page.should have_content("Account could not be updated.")
+		end
 	end
 	context "as a user" do 
 		before do
