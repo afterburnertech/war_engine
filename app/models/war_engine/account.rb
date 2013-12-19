@@ -36,5 +36,9 @@ module WarEngine
   	def create_schema 
   		Apartment::Database.create(subdomain)
 	end	
+
+	def owner?(user) 
+		owner == user
+	end
   end
 end

@@ -18,6 +18,8 @@ WarEngine::Engine.routes.draw do
 
 			get '/sign_in', :to => 'sessions#new'
 			post '/sign_in', :to => 'sessions#create', :as => :sessions
+			get '/account', :to => "accounts#edit", :as => :edit_account
+			patch '/account', :to => "accounts#update"
 		end
 	end
 
