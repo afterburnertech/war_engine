@@ -3,13 +3,14 @@ module WarEngine
   class Account < ActiveRecord::Base
   	validates :subdomain, :presence => true, :uniqueness => true
   	validates :name, :presence => true
-  	
+
   	# make sure there are no illegal characters in the subdomain name
   	validates_format_of :subdomain, :with => /\A[\w\-]+\Z/i,
   	                    :message => "is not allowed. Please choose another subdomain."
 
   	belongs_to :owner, :class_name => "WarEngine::User"
   	accepts_nested_attributes_for :owner
+  	belongs_to :plan, :class_name => "WarEngine::Plan"
 
   	# validation for the subdomain field which rejects any account
   	# that has a subdomain that is within the list of excluded subdomains
